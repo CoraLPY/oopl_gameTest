@@ -58,6 +58,7 @@
 #include "audio.h"
 #include "gamelib.h"
 #include "mygame.h"
+#include <sstream>
 
 namespace game_framework {
 /////////////////////////////////////////////////////////////////////////////
@@ -270,7 +271,11 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 	bball.OnMove();
 
 	//start
-	player.OnMove();
+	player.OnMove(&mapOne);
+
+
+	
+
 }
 
 void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
@@ -406,6 +411,22 @@ void CGameStateRun::OnShow()
 	//start
 	mapOne.OnShow();
 	player.OnShow();
+
+	CDC *pDC = CDDraw::GetBackCDC();			// 取得 Back Plain 的 CDC 
+	CFont f, *fp;
+	f.CreatePointFont(160, "Times New Roman");	// 產生 font f; 160表示16 point的字
+	fp = pDC->SelectObject(&f);					// 選用 font f
+	pDC->SetBkColor(RGB(0, 0, 0));
+	pDC->SetTextColor(RGB(255, 255, 0));
+
+	std::stringstream ss;		
+	ss << "x2=" << player.GetX2() <<", y2="<<player.GetY2()<<", arr="<< player.GetY2() / mapOne.GetMH()<<","<<player.GetX2()/mapOne.GetMW() <<"empty?"<<mapOne.IsEmpty(player.GetX2(), player.GetY2());
+
+	std::string s= ss.str();
+	CString cstr(s.c_str());
+	pDC->TextOut(5, 425, cstr);
+	pDC->SelectObject(fp);						// 放掉 font f (千萬不要漏了放掉)
+	CDDraw::ReleaseBackCDC();
 }
 
 }

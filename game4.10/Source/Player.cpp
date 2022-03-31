@@ -5,6 +5,7 @@
 #include "audio.h"
 #include "gamelib.h"
 #include "Player.h"
+#include "MapOne.h"
 
 
 namespace game_framework {
@@ -39,8 +40,8 @@ namespace game_framework {
 
 	void Player::Initialize()
 	{
-		const int X_POS = 20;
-		const int Y_POS = 50;
+		const int X_POS = 100; //80
+		const int Y_POS = 100;
 		x = X_POS;
 		y = Y_POS;
 		isMovingLeft = isMovingRight = isMovingUp = isMovingDown = false;
@@ -59,29 +60,43 @@ namespace game_framework {
 	
 	}
 
-	void Player::OnMove()
+	void Player::OnMove(MapOne *map)
 	{
 		const int STEP_SIZE = 2;
 		player.OnMove();
 		if (isMovingLeft) {
 			
-			//player.ShowBitmap(pLeft);
-			x -= STEP_SIZE;
+			if (map->IsEmpty((GetX2()- STEP_SIZE),GetY2())) {
+				x -= STEP_SIZE;
+				map->SetSX(-1*STEP_SIZE);
+			}
+			
 		}
 			
 		if (isMovingRight) {
-			//player.ShowBitmap(pRight);
-			x += STEP_SIZE;
+			
+			if (map->IsEmpty((GetX2() + STEP_SIZE), GetY2())) {
+				x += STEP_SIZE;
+				map->SetSX( STEP_SIZE);
+			}
+
+			
 		}
 			
 		if (isMovingUp) {
-			//player.ShowBitmap(pUp);
-			y -= STEP_SIZE;
+		
+			if (map->IsEmpty(GetX2(), (GetY2() - STEP_SIZE))) {
+				y -= STEP_SIZE;
+				map->SetSY(-1 * STEP_SIZE);
+			}
 		}
 			
 		if (isMovingDown) {
-			//player.ShowBitmap(pDown);
-			y += STEP_SIZE;
+			//y += STEP_SIZE;
+			if (map->IsEmpty(GetX2(), (GetY2() +STEP_SIZE))) {
+				y += STEP_SIZE;
+				map->SetSY(STEP_SIZE);
+			}
 		}
 			
 	}

@@ -1,4 +1,5 @@
 #pragma once
+#include "MapOne.h"
 namespace game_framework {
 	/////////////////////////////////////////////////////////////////////////////
 	// 這個class提供可以用鍵盤或滑鼠控制的擦子
@@ -15,7 +16,7 @@ namespace game_framework {
 		int  GetY2();					// 擦子右下角 y 座標
 		void Initialize();				// 設定擦子為初始值
 		void LoadBitmap();				// 載入圖形
-		void OnMove();					// 移動擦子
+		void OnMove(MapOne *map);		// 移動player
 		void OnShow();					// 將擦子圖形貼到畫面
 		void SetMovingDown(bool flag);	// 設定是否正在往下移動
 		void SetMovingLeft(bool flag);	// 設定是否正在往左移動
@@ -26,7 +27,7 @@ namespace game_framework {
 
 		CAnimation pUp, pDown, pLeft, pRight;
 		CAnimation player;
-		int x, y;					// 擦子左上角座標
+		int x, y;					// 地圖上的點座標
 		bool isMovingDown;			// 是否正在往下移動
 		bool isMovingLeft;			// 是否正在往左移動
 		bool isMovingRight;			// 是否正在往右移動
